@@ -3,281 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workspace Analytics Engine</title>
+    <title>Workspace Digital Archive</title>
     <style>
-        :root {
-            --bg-base: #08080b;
-            --bg-surface: #11111a;
-            --bg-accent: #1b1b2a;
-            --accent: #00ffaa;
-            --text-main: #ffffff;
-            --text-muted: #8a8a9e;
-        }
-
+        /* Modern Dark Arcade Style */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f12;
+            color: #ffffff;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Sidebar Navigation Matrix Layout */
-        .sidebar {
-            width: 280px;
-            background-color: var(--bg-surface);
-            border-right: 1px solid var(--bg-accent);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-
-        .brand-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--bg-accent);
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-
-        .search-wrapper {
-            padding: 15px;
-        }
-
-        .search-bar {
+        /* Navigation Menu Bar */
+        .arcade-nav {
+            background-color: #1a1a24;
             width: 100%;
-            padding: 10px 15px;
-            background-color: var(--bg-base);
-            border: 1px solid var(--bg-accent);
-            border-radius: 6px;
-            color: #fff;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        .search-bar:focus {
-            border-color: var(--accent);
-        }
-
-        .category-list {
+            padding: 15px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 10px 15px;
-        }
-
-        .cat-item {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            text-align: left;
-            padding: 10px 12px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .cat-item:hover, .cat-item.active {
-            background-color: var(--bg-accent);
-            color: var(--accent);
-        }
-
-        /* Main Workspace Viewport Windows */
-        .main-stage {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--bg-base);
-            position: relative;
-        }
-
-        /* Grid Display System */
-        .grid-viewport {
-            flex: 1;
-            padding: 25px;
-            overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-            align-content: start;
-        }
-
-        .arcade-card {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--bg-accent);
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .arcade-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }
-
-        .card-graphic {
-            height: 100px;
-            background: linear-gradient(135deg, #232336 0%, #0f0f17 100%);
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 28px;
-        }
-
-        .card-meta {
-            padding: 12px;
-        }
-
-        .card-name {
-            margin: 0 0 4px 0;
-            font-size: 14px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-badge {
-            font-size: 10px;
-            color: var(--accent);
-            background-color: rgba(0, 255, 170, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        /* Decoupled Live Gameplay Stage */
-        .player-viewport {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: var(--bg-base);
+            gap: 15px;
             z-index: 10;
         }
 
-        .stage-banner {
-            background-color: var(--bg-surface);
-            border-bottom: 1px solid var(--bg-accent);
-            padding: 12px 20px;
+        /* Arcade Game Buttons */
+        .game-btn {
+            background: linear-gradient(135deg, #3a3d52 0%, #232433 100%);
+            color: #ffffff;
+            border: 2px solid #4f5473;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-btn:hover {
+            background: #5d638c;
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .game-btn.active {
+            background: linear-gradient(135deg, #00ffcc 0%, #0099ff 100%);
+            color: #0f0f12;
+            border-color: #ffffff;
+        }
+
+        /* Game Screen Container */
+        .window-container {
+            flex: 1;
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px;
+            box-sizing: border-box;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
         }
 
-        .exit-btn {
-            background-color: var(--bg-accent);
-            color: #fff;
-            border: 1px solid #3d3d5c;
-            padding: 8px 16px;
-            font-weight: 600;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .exit-btn:hover {
-            background-color: #ff3366;
-            border-color: #ff3366;
-        }
-
-        .iframe-stage-wrapper {
-            flex: 1;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-
+        /* The Game Display Screen */
         iframe {
             width: 100%;
             height: 100%;
-            border: 2px solid var(--bg-accent);
-            border-radius: 8px;
-            background-color: #000;
+            max-height: 700px;
+            border: 4px solid #1a1a24;
+            border-radius: 12px;
+            background-color: #141419;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar Control Center Column -->
-    <aside class="sidebar">
-        <div class="brand-header">Data Workspace</div>
-        
-        <div class="search-wrapper">
-            <input type="text" class="search-bar" id="searchFilter" placeholder="Search archive entries...">
-        </div>
+    <!-- Top Game Switching Menu -->
+    <nav class="arcade-nav">
+        <button class="game-btn" onclick="switchGame('https://bitlife-freeonline.github.io/', this)">BitLife</button>
+        <button class="game-btn" onclick="switchGame('https://gamedistribution.com', this)">Smash Karts</button>
+        <button class="game-btn" onclick="switchGame('https://shellshock.io', this)">Shell Shockers</button>
+        <button class="game-btn" onclick="switchGame('https://gamedistribution.com', this)">Moto X3M</button>
+    </nav>
 
-        <nav class="category-list">
-            <button class="cat-item active" data-target="all">All Modules</button>
-            <button class="cat-item" data-target="racing">Racing Engine</button>
-            <button class="cat-item" data-target="action">Action Sandbox</button>
-            <button class="cat-item" data-target="simulation">Simulation Lab</button>
-        </nav>
-    </aside>
+    <!-- Game Box Screen (Starts completely blank/empty now) -->
+    <div class="window-container">
+        <iframe id="arcade-screen" src="about:blank" allowfullscreen></iframe>
+    </div>
 
-    <!-- Content Stage Panel -->
-    <main class="main-stage">
-        
-        <!-- Primary Grid Window Viewport -->
-        <div class="grid-viewport" id="gameGrid">
-            <!-- Programmatic compilation loop elements load automatically via script below -->
-        </div>
-
-        <!-- Pop-Up Independent Iframe Frame Stage -->
-        <div class="player-viewport" id="playerStage">
-            <div class="stage-banner">
-                <button class="exit-btn" id="closeStageBtn">⬅ Return To Directory</button>
-                <h3 id="stageLabel" style="margin:0; font-size:15px; color:var(--text-muted);">Running Asset Node...</h3>
-            </div>
-            <div class="iframe-stage-wrapper">
-                <iframe id="gameContainerFrame" src="" allowfullscreen></iframe>
-            </div>
-        </div>
-
-    </main>
-
+    <!-- Script to handle dynamic game changing -->
     <script>
-        // Scalable Datapool Struct supporting loop expansions up to 100 entries
-        const appCatalogue = [
-            { id: 1, name: "Forza Horizon 6", cat: "racing", icon: "🏎️", url: "https://mit.edu" },
-            { id: 2, name: "Forza Horizon 5", cat: "racing", icon: "🚗", url: "https://mit.edu" },
-            { id: 3, name: "BeamNG.drive Crash", cat: "racing", icon: "💥", url: "https://mit.edu" },
-            { id: 4, name: "BitLife Simulator", cat: "simulation", icon: "💼", url: "https://bitlife-freeonline.github.io/" },
-            { id: 5, name: "Smash Karts", cat: "action", icon: "🛺", url: "https://gamedistribution.com" },
-            { id: 6, name: "Shell Shockers", cat: "action", icon: "🥚", url: "https://shellshock.io" },
-            { id: 7, name: "Moto X3M", cat: "racing", icon: "🏍️", url: "https://gamedistribution.com" },
-            { id: 8, name: "Drift Hunters", cat: "racing", icon: "🚘", url: "https://gamedistribution.com" },
-            { id: 9, name: "Madalin Stunt Cars 2", cat: "racing", icon: "🛸", url: "https://gamedistribution.com" },
-            { id: 10, name: "Retro Bowl", cat: "simulation", icon: "🏈", url: "https://gamedistribution.com" },
-            { id: 11, name: "Slope Run", cat: "action", icon: "🟢", url: "https://gamedistribution.com" },
-            { id: 12, name: "Tunnel Rush", cat: "action", icon: "🌀", url: "https://gamedistribution.com" }
-            // Add your additional placeholder items directly inside this list using the format:
-            // { id: 13, name: "Game Name", cat: "category", icon: "🎮", url: "https://game-link.com" }
-        ];
+        function switchGame(gameUrl, buttonElement) {
+            // Update the screen source link
+            document.getElementById('arcade-screen').src = gameUrl;
+            
+            // Clear out old active button styles
+            const buttons = document.querySelectorAll('.game-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Highlight the clicked button
+            buttonElement.classList.add('active');
+        }
+    </script>
 
-        // Fill remaining structural array spaces to instantiate the 100-card matrix frame loop
-        const totalTargetElements = 100;
-        const fallbackCategories = ["racing", "action", "simulation"];
-        const fallbackIcons = ["🎮", "👾", "🕹️", "⚡", "🛸"];
-        
-        while(appCatalogue.length < totalTargetElements) {
-            const currentIdx = appCatalogue.length + 1;
-            const pseudoCategory = fallbackCategories[currentIdx % fallbackCategories.length];
-            const pseudoIcon = fallbackIcons[currentIdx % fallbackIcons.length];
-            appCatalogue.push({
-                id: currentIdx,
-                name: `Arcade Module ${currentIdx}`,
-                cat: pseudoCategory,
-                icon: pseudoIcon, 
+</body>
+</html>
