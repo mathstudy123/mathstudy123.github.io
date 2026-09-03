@@ -3,288 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workspace Digital Archive Hub</title>
+    <title>Workspace Analytics Engine</title>
     <style>
-        /* General Theme & Reset */
+        :root {
+            --bg-base: #08080b;
+            --bg-surface: #11111a;
+            --bg-accent: #1b1b2a;
+            --accent: #00ffaa;
+            --text-main: #ffffff;
+            --text-muted: #8a8a9e;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #0b0b0e;
-            color: #ffffff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Top Header Control Area */
-        header {
-            background-color: #14141c;
-            padding: 15px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        /* Sidebar Navigation Matrix Layout */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--bg-accent);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            flex-shrink: 0;
         }
 
-        .header-title {
-            margin: 0;
-            font-size: 22px;
-            font-weight: 600;
+        .brand-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--bg-accent);
+            font-size: 16px;
+            font-weight: 700;
             letter-spacing: 1px;
-            color: #00ffcc;
+            color: var(--accent);
+            text-transform: uppercase;
         }
 
-        /* Search Bar Styling */
-        .search-container {
-            width: 100%;
-            max-width: 500px;
-            position: relative;
+        .search-wrapper {
+            padding: 15px;
         }
 
         .search-bar {
             width: 100%;
-            padding: 12px 20px;
-            background-color: #1f1f2e;
-            border: 2px solid #3d3d5c;
-            border-radius: 30px;
+            padding: 10px 15px;
+            background-color: var(--bg-base);
+            border: 1px solid var(--bg-accent);
+            border-radius: 6px;
             color: #fff;
-            font-size: 15px;
+            font-size: 14px;
             box-sizing: border-box;
             outline: none;
-            transition: all 0.3s ease;
         }
 
         .search-bar:focus {
-            border-color: #00ffcc;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+            border-color: var(--accent);
         }
 
-        /* Filter Categories System */
-        .categories-bar {
+        .category-list {
             display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            max-width: 100%;
-            padding-bottom: 5px;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px 15px;
         }
 
-        .cat-btn {
-            background-color: #1f1f2e;
-            color: #b3b3cc;
-            border: 1px solid #3d3d5c;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
+        .cat-item {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 14px;
             font-weight: 600;
-            font-size: 13px;
-            white-space: nowrap;
+            border-radius: 6px;
+            cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .cat-btn:hover, .cat-btn.active {
-            background-color: #00ffcc;
-            color: #0b0b0e;
-            border-color: #00ffcc;
+        .cat-item:hover, .cat-item.active {
+            background-color: var(--bg-accent);
+            color: var(--accent);
         }
 
-        /* Main Workspace Viewports */
-        .main-content {
+        /* Main Workspace Viewport Windows */
+        .main-stage {
             flex: 1;
-            padding: 30px 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Dashboard Grid System */
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        /* Interactive Game Selection Cards */
-        .game-card {
-            background-color: #14141c;
-            border: 2px solid #232333;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
+            background-color: var(--bg-base);
             position: relative;
         }
 
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: #00ffcc;
-            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.15);
+        /* Grid Display System */
+        .grid-viewport {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            align-content: start;
         }
 
-        /* Visual Box Placeholder for Thumbnails */
-        .card-img-placeholder {
-            height: 130px;
-            background: linear-gradient(135deg, #2b2b3d 0%, #171724 100%);
+        .arcade-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--bg-accent);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arcade-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .card-graphic {
+            height: 100px;
+            background: linear-gradient(135deg, #232336 0%, #0f0f17 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            color: #00ffcc;
+            font-size: 28px;
         }
 
-        .card-info {
-            padding: 15px;
+        .card-meta {
+            padding: 12px;
         }
 
-        .card-title {
-            margin: 0 0 5px 0;
-            font-size: 16px;
+        .card-name {
+            margin: 0 0 4px 0;
+            font-size: 14px;
             font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .card-tag {
-            font-size: 11px;
-            color: #00ffcc;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background-color: rgba(0, 255, 204, 0.1);
+        .card-badge {
+            font-size: 10px;
+            color: var(--accent);
+            background-color: rgba(0, 255, 170, 0.1);
             padding: 2px 6px;
             border-radius: 4px;
-            display: inline-block;
+            text-transform: uppercase;
         }
 
-        /* Embedded Gameplay Stage Screen */
-        .player-stage {
+        /* Decoupled Live Gameplay Stage */
+        .player-viewport {
             display: none;
-            width: 100%;
-            max-width: 1000px;
             flex-direction: column;
-            gap: 15px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: var(--bg-base);
+            z-index: 10;
         }
 
-        .stage-controls {
+        .stage-banner {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--bg-accent);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
         }
 
-        .back-btn {
-            background-color: #1f1f2e;
+        .exit-btn {
+            background-color: var(--bg-accent);
             color: #fff;
-            border: 2px solid #3d3d5c;
-            padding: 10px 20px;
-            border-radius: 6px;
+            border: 1px solid #3d3d5c;
+            padding: 8px 16px;
+            font-weight: 600;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        .back-btn:hover {
+        .exit-btn:hover {
             background-color: #ff3366;
             border-color: #ff3366;
         }
 
-        .iframe-wrapper {
-            width: 100%;
-            height: 600px;
-            background-color: #14141c;
-            border: 3px solid #14141c;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            overflow: hidden;
+        .iframe-stage-wrapper {
+            flex: 1;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
         iframe {
             width: 100%;
             height: 100%;
-            border: none;
+            border: 2px solid var(--bg-accent);
+            border-radius: 8px;
+            background-color: #000;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Dashboard Header Navigation -->
-    <header>
-        <h1 class="header-title">ARCHIVE DATA CONTROL</h1>
+    <!-- Sidebar Control Center Column -->
+    <aside class="sidebar">
+        <div class="brand-header">Data Workspace</div>
         
-        <div class="search-container">
-            <input type="text" class="search-bar" id="searchBox" placeholder="Search unblocked game titles..." onkeyup="filterSystem()">
+        <div class="search-wrapper">
+            <input type="text" class="search-bar" id="searchFilter" placeholder="Search archive entries...">
         </div>
 
-        <div class="categories-bar">
-            <button class="cat-btn active" onclick="filterCategory('all', this)">All Games</button>
-            <button class="cat-btn" onclick="filterCategory('racing', this)">Racing / Driving</button>
-            <button class="cat-btn" onclick="filterCategory('action', this)">Action & Battle</button>
-            <button class="cat-btn" onclick="filterCategory('simulation', this)">Simulation</button>
-        </div>
-    </header>
+        <nav class="category-list">
+            <button class="cat-item active" data-target="all">All Modules</button>
+            <button class="cat-item" data-target="racing">Racing Engine</button>
+            <button class="cat-item" data-target="action">Action Sandbox</button>
+            <button class="cat-item" data-target="simulation">Simulation Lab</button>
+        </nav>
+    </aside>
 
-    <!-- Main Dynamic Viewer Area -->
-    <main class="main-content">
+    <!-- Content Stage Panel -->
+    <main class="main-stage">
         
-        <!-- Game Cards Menu Interface -->
-        <div class="games-grid" id="gridContainer">
-            
-            <div class="game-card" data-title="forza horizon 6" data-cat="racing" onclick="loadArcadeStage('https://mit.edu', 'Forza Horizon 6 (3D Web Edition)')">
-                <div class="card-img-placeholder">🏎️</div>
-                <div class="card-info"><h3 class="card-title">Forza Horizon 6</h3><span class="card-tag">Racing</span></div>
-            </div>
-
-            <div class="game-card" data-title="forza horizon 5" data-cat="racing" onclick="loadArcadeStage('https://mit.edu', 'Forza Horizon 5 Sandbox')">
-                <div class="card-img-placeholder">🚗</div>
-                <div class="card-info"><h3 class="card-title">Forza Horizon 5</h3><span class="card-tag">Racing</span></div>
-            </div>
-
-            <div class="game-card" data-title="beam ng drive" data-cat="racing" onclick="loadArcadeStage('https://mit.edu', 'BeamNG Crash Sandbox')">
-                <div class="card-img-placeholder">💥</div>
-                <div class="card-info"><h3 class="card-title">BeamNG.drive</h3><span class="card-tag">Racing</span></div>
-            </div>
-
-            <div class="game-card" data-title="bitlife" data-cat="simulation" onclick="loadArcadeStage('https://github.io', 'BitLife Life Simulator')">
-                <div class="card-img-placeholder">💼</div>
-                <div class="card-info"><h3 class="card-title">BitLife</h3><span class="card-tag">Simulation</span></div>
-            </div>
-
-            <div class="game-card" data-title="smash karts" data-cat="action" onclick="loadArcadeStage('https://gamedistribution.com', 'Smash Karts')">
-                <div class="card-img-placeholder">🛺</div>
-                <div class="card-info"><h3 class="card-title">Smash Karts</h3><span class="card-tag">Action</span></div>
-            </div>
-
-            <div class="game-card" data-title="shell shockers" data-cat="action" onclick="loadArcadeStage('https://shellshock.io', 'Shell Shockers')">
-                <div class="card-img-placeholder">🥚</div>
-                <div class="card-info"><h3 class="card-title">Shell Shockers</h3><span class="card-tag">Action</span></div>
-            </div>
-
-            <div class="game-card" data-title="moto x3m" data-cat="racing" onclick="loadArcadeStage('https://gamedistribution.com', 'Moto X3M Bike Racing')">
-                <div class="card-img-placeholder">🏍️</div>
-                <div class="card-info"><h3 class="card-title">Moto X3M</h3><span class="card-tag">Racing</span></div>
-            </div>
-
+        <!-- Primary Grid Window Viewport -->
+        <div class="grid-viewport" id="gameGrid">
+            <!-- Programmatic compilation loop elements load automatically via script below -->
         </div>
 
-        <!-- Fullscreen Interactive Arcade Viewport -->
-        <div class="player-stage" id="stageContainer">
-            <div class="stage-controls">
-                <button class="back-btn" onclick="closeArcadeStage()">⬅ Back to Grid Menu</button>
-                <h2 id="stageTitle" style="margin:0; font-size:18px;">Game Loading...</h2>
+        <!-- Pop-Up Independent Iframe Frame Stage -->
+        <div class="player-viewport" id="playerStage">
+            <div class="stage-banner">
+                <button class="exit-btn" id="closeStageBtn">⬅ Return To Directory</button>
+                <h3 id="stageLabel" style="margin:0; font-size:15px; color:var(--text-muted);">Running Asset Node...</h3>
             </div>
-            <div class="iframe-wrapper">
-                <iframe id="gameFrame" src="" allowfullscreen></iframe>
+            <div class="iframe-stage-wrapper">
+                <iframe id="gameContainerFrame" src="" allowfullscreen></iframe>
             </div>
         </div>
 
     </main>
 
-    <!-- JavaScript Client Control Systems -->
     <script>
-        let currentCategory = 'all';
+        // Scalable Datapool Struct supporting loop expansions up to 100 entries
+        const appCatalogue = [
+            { id: 1, name: "Forza Horizon 6", cat: "racing", icon: "🏎️", url: "https://mit.edu" },
+            { id: 2, name: "Forza Horizon 5", cat: "racing", icon: "🚗", url: "https://mit.edu" },
+            { id: 3, name: "BeamNG.drive Crash", cat: "racing", icon: "💥", url: "https://mit.edu" },
+            { id: 4, name: "BitLife Simulator", cat: "simulation", icon: "💼", url: "https://bitlife-freeonline.github.io/" },
+            { id: 5, name: "Smash Karts", cat: "action", icon: "🛺", url: "https://gamedistribution.com" },
+            { id: 6, name: "Shell Shockers", cat: "action", icon: "🥚", url: "https://shellshock.io" },
+            { id: 7, name: "Moto X3M", cat: "racing", icon: "🏍️", url: "https://gamedistribution.com" },
+            { id: 8, name: "Drift Hunters", cat: "racing", icon: "🚘", url: "https://gamedistribution.com" },
+            { id: 9, name: "Madalin Stunt Cars 2", cat: "racing", icon: "🛸", url: "https://gamedistribution.com" },
+            { id: 10, name: "Retro Bowl", cat: "simulation", icon: "🏈", url: "https://gamedistribution.com" },
+            { id: 11, name: "Slope Run", cat: "action", icon: "🟢", url: "https://gamedistribution.com" },
+            { id: 12, name: "Tunnel Rush", cat: "action", icon: "🌀", url: "https://gamedistribution.com" }
+            // Add your additional placeholder items directly inside this list using the format:
+            // { id: 13, name: "Game Name", cat: "category", icon: "🎮", url: "https://game-link.com" }
+        ];
 
-        // Filter games via Search and Category combination
-        function filterSystem() {
+        // Fill remaining structural array spaces to instantiate the 100-card matrix frame loop
+        const totalTargetElements = 100;
+        const fallbackCategories = ["racing", "action", "simulation"];
+        const fallbackIcons = ["🎮", "👾", "🕹️", "⚡", "🛸"];
+        
+        while(appCatalogue.length < totalTargetElements) {
+            const currentIdx = appCatalogue.length + 1;
+            const pseudoCategory = fallbackCategories[currentIdx % fallbackCategories.length];
+            const pseudoIcon = fallbackIcons[currentIdx % fallbackIcons.length];
+            appCatalogue.push({
+                id: currentIdx,
+                name: `Arcade Module ${currentIdx}`,
+                cat: pseudoCategory,
+                icon: pseudoIcon,
